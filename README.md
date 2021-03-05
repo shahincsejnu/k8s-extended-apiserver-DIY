@@ -45,7 +45,55 @@
         - The successor to SSL
         - Authenticates the server, client and encrypts the data
 
--  
+## Self Generating CA certificate Infrastructure
+
+- [x] [How TLS and self-signed certificates work](https://www.youtube.com/watch?v=gH5X7hLAWeU)
+- Parts of CA certificate
+    - Each CA certificate has three parts
+    - private part + public part + crt(public key + claim = CN(common name), SANS(subject alternative names), O(organization) + signature(claim, signed by private key))
+    - has extra two part
+        - isCa: bool (true | false)
+        - Usage:
+            - have many things in usage, but 4 things are mainly useful
+            - digital signature
+            - key encipherment
+            - server auth
+            - client auth
+            - cert sign (not important for us)
+- To make new CA | To issue new CA | To make new CA infrastructure | All are self signed not by known CA
+    - Step1: Generate CA cert pair(public and private key) (use `openssl` for this and see in certmanager site for the command)
+    - After Step1 will generate two files
+        - ca.key (base64 encoded private-key)
+        - ca.crt (all the parts that told in Parts of CA certificate will be here. base64 encoded)  [it's provided to every browser/pc by default]
+            - isCA needs to be `true` of the cert [isCA: true]
+            - Issuer will be same as it's CN(Common Name)   [Issuer: ${CN}]
+            - SANS generally `empty`  [SANS: empty]
+            - Usage:
+                - digital signature
+                - key encipherment
+                - cert sign
+    - Now, with this can generate a lot of server certificate or client certificate
+    - For generating server certificate
+        - again we need to generate a private key using openssl
+            - server.key
+        - now during making server.crt we will give the CN and others  things as usual but we need to `sign` the server certificate with our generated CA's private key
+            - server.crt er sign part er private key ta hobe `ca.key`(ca's private key)
+        - Example of server certificate
+            - (pub + claim = pg.default.svc, SANS=[domain,ip] + sign(claim, ca.key))
+    - Now server will provide it's certificate to client when through curl/browser client opens the HTTPS connection 
+    - Now client will valided that whether the signing part(of server.crt) is actually signed by trusted CA or not by using known CA's public key(which generally belongs to client/browswer/crul etc)
+    - After sign validation and CN, O, SANS, expire date etc then client make sure yes it is the actual site that client was looking for
+    - Note that, claim part is not encrypted, claim just need to be valid but the sign part is encrypted so sign need to be decrypted by CA's public key and need to be match.
+    - Also note that, the `ca.key` need to be private, cause otherwise anyone can issue certificate with this by the main CA's name            
+    - `dig +short <site>` : to get the ip of the site
+    - Note that for `server.crt`
+        - as it is not a CA so it's `isCa: false`
+        - it's Usage:
+            - digital signature
+            - key encipherment
+            - server auth (it's need to be on, it's particularly important, it server auth is not on then you cannot use it as a server certificate)
+                - when write a server in go and give listen by tls config then if this part is not given or on then that will fail (TLS protocol will fail)
+    
 
 
 ## Encryption
