@@ -93,8 +93,33 @@
             - key encipherment
             - server auth (it's need to be on, it's particularly important, it server auth is not on then you cannot use it as a server certificate)
                 - when write a server in go and give listen by tls config then if this part is not given or on then that will fail (TLS protocol will fail)
-    
+    - Client certificate also need to validated(if it is on) by server, in this case client_ca.crt also need to give to server, it can be same of different than server ca.crt(in kubernetes we give client ca)
+    - Client certificate also generate like the server certificate
+        - client.key (private key)
+        - client.crt / ca.key
+        - it's `isCa: false`
+        - Usage:
+            - digital signature
+            - key encipherment
+            - client auth
+        - (pub + claim = CN:pg-admin(means it will be user name) + sign(claim, client_ca.key(with this the signature will be signed)))  
+    - For kubernetes webhooks we need to make a ca, that ca is basically a client ca, for that we need to give ca certificate bundle when we make apiservice object, by this we tell k8s server when we will connect with you, you verify my client certificates with this public key.
+    - when we maintained both server and client then we can use self-signed certificate
 
+- mTLS / mutual TLS
+    - client and server both will identified each other, this is basically mutual TLS
+    - during making client object in go, need to provide client.key and client.crt pair in tls config    
+    - then we connect in server side, in client need server ca.crt and it's certs pair(of client.key and client.crt)
+        - ```go
+          http.Client{
+            RootCA: ca.crt
+            Client certs: [client.key, client.crt]
+          }
+          ``` 
+- CRL (Certificate Revokation List)
+    - CA authority has a list, where the id number of revoked certificate
+    - when a client connect then server will check whether the certificate is valid or not, then it will check the revoke list, if it is there then server will reject that client connection
+    - Standard TLS client library of Go does not support this CRL method
 
 ## Encryption
 
