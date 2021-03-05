@@ -31,3 +31,14 @@
     - You can create your own CA (create a private-public key pair) and do the same process like previous section said
     - now your different apps can get interact with your another app (with HTTPS) which signed it's certificate by your new CA 
     - it's limited only in your zone/environments
+- [x] [SSL, TLS, HTTP, HTTPS](https://www.youtube.com/watch?v=hExRDVZHhig)
+    - In HTTP(HyperText Transfer Protocol) the data is clear text, no encryption
+    - In HTTPS(Secure HTTP) the data is encrypted
+    - SSL(Secure Sockets Layer), uses public key encryption to secure data
+        - An SSL certificate is used to authenticate the identity of a website (web server give to to client)
+        - Browser make sure it trust the certificate, then the ssl seesion can proceed and encrypted data can be passed
+    - TLS (Transport Layer Security)
+        - The latest industry standard cryptographic protocol
+        - Tu successor to SSL
+        - Authenticates the server, client and encrypts the data
+        
