@@ -10,7 +10,7 @@
 - `kc describe pod kube-apiserver-kind-control-plane -n kube-system`
 
 
-## HTTPS, CA, Self-Signed Certificate
+## TLS & Others
 
 - [x] [How does HTTPS work? What's a CA? What's a self-signed Certificate?](https://www.youtube.com/watch?v=T4Df5_cojAs)
 - Prerequisites
@@ -27,10 +27,13 @@
     - Now, anyone who has the respective CA's public key can verify that it was actually signed by that CA (which is trusted one by that client, ex: my browser)
     - Most Browsers by default have a list of Certificates(CA's certificates) which are issued by a trusted CA, in those certificates it get the public key of that CA
     - It's a good way to prevent "A man in the middle attack"
+    - After completing the infos & verifications then the client and server shared a secret key, until that they used asymmetric key encryption(used two key, public-private key pair) but after that when they start using passing data by encrypted/decrypted with the same secret key(which they got each other) they basically start using symmetric key encryption(ony use one key)
+
 - Self-Signed Certificate
     - You can create your own CA (create a private-public key pair) and do the same process like previous section said
     - now your different apps can get interact with your another app (with HTTPS) which signed it's certificate by your new CA 
     - it's limited only in your zone/environments
+
 - [x] [SSL, TLS, HTTP, HTTPS](https://www.youtube.com/watch?v=hExRDVZHhig)
     - In HTTP(HyperText Transfer Protocol) the data is clear text, no encryption
     - In HTTPS(Secure HTTP) the data is encrypted
@@ -39,6 +42,23 @@
         - Browser make sure it trust the certificate, then the ssl seesion can proceed and encrypted data can be passed
     - TLS (Transport Layer Security)
         - The latest industry standard cryptographic protocol
-        - Tu successor to SSL
+        - The successor to SSL
         - Authenticates the server, client and encrypts the data
-        
+
+-  
+
+
+## Encryption
+
+### Symmetric key Encryption
+
+
+### Asymmetric key encryption
+
+
+
+
+
+# Resources
+
+- [x] [Basic concepts of web applications, how they work and the HTTP protocol](https://www.youtube.com/watch?v=RsQ1tFLwldY)
