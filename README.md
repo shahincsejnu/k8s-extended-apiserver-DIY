@@ -120,6 +120,8 @@
     - CA authority has a list, where the id number of revoked certificate
     - when a client connect then server will check whether the certificate is valid or not, then it will check the revoke list, if it is there then server will reject that client connection
     - Standard TLS client library of Go does not support this CRL method
+    
+- `certlogik.com/decoder`: For decoding the key, note that never give your private key here
 
 ## Encryption
 
