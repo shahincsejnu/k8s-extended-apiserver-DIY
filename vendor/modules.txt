@@ -1,0 +1,19 @@
+# github.com/gorilla/context v1.1.1
+## explicit
+github.com/gorilla/context
+# github.com/gorilla/mux v1.6.2
+## explicit
+github.com/gorilla/mux
+# github.com/pkg/errors v0.8.0
+## explicit
+github.com/pkg/errors
+# github.com/spf13/afero v1.2.0
+## explicit
+github.com/spf13/afero
+github.com/spf13/afero/mem
+# golang.org/x/text v0.3.0
+golang.org/x/text/transform
+golang.org/x/text/unicode/norm
+# k8s.io/client-go v9.0.0+incompatible
+## explicit
+k8s.io/client-go/util/cert
