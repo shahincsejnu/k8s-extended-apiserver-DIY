@@ -27,7 +27,7 @@
     - Now, anyone who has the respective CA's public key can verify that it was actually signed by that CA (which is trusted one by that client, ex: my browser)
     - Most Browsers by default have a list of Certificates(CA's certificates) which are issued by a trusted CA, in those certificates it get the public key of that CA
     - It's a good way to prevent "A man in the middle attack"
-    - After completing the infos & verifications then the client and server shared a secret key, until that they used asymmetric key encryption(used two key, public-private key pair) but after that when they start using passing data by encrypted/decrypted with the same secret key(which they got each other) they basically start using symmetric key encryption(ony use one key)
+    - After completing the infos & verifications then the client and server shared a secret key, until that they used asymmetric key encryption(used two key, public-private key pair) but after that when they start passing data by encrypted/decrypted with the same secret key(which they got from each other) they basically start using symmetric key encryption(use only one key)
 
 - Self-Signed Certificate
     - You can create your own CA (create a private-public key pair) and do the same process like previous section said
@@ -91,9 +91,9 @@
         - it's Usage:
             - digital signature
             - key encipherment
-            - server auth (it's need to be on, it's particularly important, it server auth is not on then you cannot use it as a server certificate)
+            - server auth (it's need to be on, it's particularly important, if server auth is not on then you cannot use it as a server certificate)
                 - when write a server in go and give listen by tls config then if this part is not given or on then that will fail (TLS protocol will fail)
-    - Client certificate also need to validated(if it is on) by server, in this case client_ca.crt also need to give to server, it can be same of different than server ca.crt(in kubernetes we give client ca)
+    - Client certificate also need to validated(if it is on) by server, in this case client_ca.crt also need to give to server, it can be same or different than server ca.crt(in kubernetes we give client ca)
     - Client certificate also generate like the server certificate
         - client.key (private key)
         - client.crt / ca.key
@@ -122,6 +122,17 @@
     - Standard TLS client library of Go does not support this CRL method
     
 - `certlogik.com/decoder`: For decoding the key, note that never give your private key here
+- `maxmind.com` for seeing the IP location & Info
+- `traceroute google.com` to see the route from your ip to google.com's ip
+
+
+## Webhooks in K8s
+
+There are three webhooks in kubernetes.  
+   - Mutation Webhook  
+   - Validation Webhook  
+   - Conversion Webhook  
+
 
 ## Encryption
 
