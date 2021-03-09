@@ -25,7 +25,7 @@ func main() {
 	fmt.Println(proxy)
 
 	fs := afero.NewOsFs()
-	store, err := certstore.NewCertStore(fs, "/tmp/k8s-extended-apiserver-DIY")
+	store, err := certstore.NewCertStore(fs, "../certs")
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -56,7 +56,7 @@ func main() {
 		log.Fatalln(err)
 	}
 
-	apiserverStore, err := certstore.NewCertStore(fs, "/tmp/k8s-extended-apiserver-DIY")
+	apiserverStore, err := certstore.NewCertStore(fs, "../certs")
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -68,7 +68,7 @@ func main() {
 	}
 
 	rhCACertPool := x509.NewCertPool()
-	rhStore, err := certstore.NewCertStore(fs, "/tmp/k8s-extended-apiserver-DIY")
+	rhStore, err := certstore.NewCertStore(fs, "../certs")
 	if err != nil {
 		log.Fatalln(err)
 	}
